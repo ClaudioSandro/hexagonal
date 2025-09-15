@@ -4,18 +4,24 @@ namespace Src\IdentityAndAccess\User\Application;
 
 use Src\IdentityAndAccess\User\Domain\Entities\User;
 use Src\IdentityAndAccess\User\Domain\Contract\UserContract;
-use Illuminate\Support\Facades\Hash;
+use Src\IdentityAndAccess\User\Domain\ValueObjects\Email;
+use Src\IdentityAndAccess\User\Domain\ValueObjects\Password;
 
 class RegisterUseCase
 {
-    public function __construct(private UserContract $repository) {}
+    private UserContract $repository;
 
-    public function execute(array $data): User
+    public function __construct(UserContract $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    public function __invoke(array $data): User
     {
         $user = new User(
             $data['name'],
-            $data['email'],
-            Hash::make($data['password'])
+            new Email($data['email']),
+            new Password($data['password'])
         );
 
         return $this->repository->create($user);
