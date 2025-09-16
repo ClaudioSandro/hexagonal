@@ -8,12 +8,12 @@ Este caso está diseñado para evaluar habilidades avanzadas en Laravel, incluye
 
 ## Historias de Usuario
 
-1. **HU-01** : Como usuario, quiero poder registrarme en el sistema proporcionando mi nombre, correo electrónico y contraseña para acceder a las funcionalidades protegidas.
-2. **HU-02** : Como usuario registrado, quiero poder iniciar sesión en el sistema utilizando mi correo electrónico y contraseña para acceder a mis datos y realizar operaciones.
-3. **HU-03** : Como usuario autenticado, quiero poder crear nuevos clientes para gestionar sus órdenes posteriormente.
-4. **HU-04** : Como usuario autenticado, quiero poder listar todos los clientes registrados en el sistema, con opciones de paginación, filtrado por nombre y ordenamiento por fecha de creación.
-5. **HU-05** : Como usuario autenticado, quiero poder actualizar la información de un cliente existente para mantener los datos actualizados.
-6. **HU-06** : Como usuario autenticado, quiero poder eliminar un cliente del sistema si ya no es necesario.
+1. OK **HU-01** : Como usuario, quiero poder registrarme en el sistema proporcionando mi nombre, correo electrónico y contraseña para acceder a las funcionalidades protegidas.
+2. OK **HU-02** : Como usuario registrado, quiero poder iniciar sesión en el sistema utilizando mi correo electrónico y contraseña para acceder a mis datos y realizar operaciones.
+3. OK **HU-03** : Como usuario autenticado, quiero poder crear nuevos clientes para gestionar sus órdenes posteriormente.
+4. OK **HU-04** : Como usuario autenticado, quiero poder listar todos los clientes registrados en el sistema, con opciones de paginación, filtrado por nombre y ordenamiento por fecha de creación.
+5. OK**HU-05** : Como usuario autenticado, quiero poder actualizar la información de un cliente existente para mantener los datos actualizados.
+6. OK **HU-06** : Como usuario autenticado, quiero poder eliminar un cliente del sistema si ya no es necesario.
 7. **HU-07** : Como usuario autenticado, quiero poder crear nuevos productos para asociarlos a las órdenes de los clientes.
 8. **HU-08** : Como usuario autenticado, quiero poder listar todos los productos disponibles en el sistema, con opciones de filtrado por categoría y ordenamiento por precio.
 9. **HU-09** : Como usuario autenticado, quiero poder crear órdenes asociando productos específicos a un cliente determinado.
@@ -182,3 +182,8 @@ Las migraciones, modelos, factories y seeders permanecen igual, pero ahora está
 
 1. **Organización del Código** : Asegúrate de que cada contexto tenga su propia carpeta y siga la estructura de Dominio , Aplicación e Infraestructura.
 2. **Interfaces** : Define interfaces en el nivel de Dominio y proporciona implementaciones concretas en Infraestructura.
+
+**IAM**:
+- OK crear un solo controlador llamado auth
+- transferir logica del hasheo al repository
+- usar los validadores en el controlador (no request equest porque es generico)

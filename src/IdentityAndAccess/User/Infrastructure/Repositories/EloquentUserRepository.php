@@ -15,7 +15,7 @@ class EloquentUserRepository implements UserContract
         $eloquent = EloquentUser::create([
             'name' => $user->name(),
             'email' => $user->email()->value(),
-            'password' => $user->password()->value(),
+            'password' => bcrypt($user->password()->value()), 
         ]);
 
         return new DomainUser(
@@ -24,6 +24,7 @@ class EloquentUserRepository implements UserContract
             new Password($eloquent->password, true)
         );
     }
+
 
     public function findByEmail(string $email): ?DomainUser
     {
