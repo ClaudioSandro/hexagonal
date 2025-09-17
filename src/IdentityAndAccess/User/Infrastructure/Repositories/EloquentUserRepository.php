@@ -15,7 +15,7 @@ class EloquentUserRepository implements UserContract
         $eloquent = EloquentUser::create([
             'name' => $user->name(),
             'email' => $user->email()->value(),
-            'password' => bcrypt($user->password()->value()), 
+            'password' => $user->password()->value()
         ]);
 
         return new DomainUser(
