@@ -8,7 +8,7 @@ class CreateCustomerRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // Puedes agregar lógica de permisos
+        return true;
     }
 
     public function rules(): array

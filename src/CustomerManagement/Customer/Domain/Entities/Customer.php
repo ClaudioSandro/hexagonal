@@ -11,7 +11,7 @@ class Customer
     private int $id;
     private CustomerName $name;
     private CustomerEmail $email;
-    private UserId $userId; // Usuario que lo creó
+    private UserId $userId; 
     private \DateTimeImmutable $createdAt;
     private \DateTimeImmutable $updatedAt;
 
@@ -31,7 +31,6 @@ class Customer
         $this->updatedAt = $updatedAt ?? new \DateTimeImmutable();
     }
 
-    // Getters
     public function id(): int { return $this->id; }
     public function name(): CustomerName { return $this->name; }
     public function email(): CustomerEmail { return $this->email; }
@@ -39,7 +38,6 @@ class Customer
     public function createdAt(): \DateTimeImmutable { return $this->createdAt; }
     public function updatedAt(): \DateTimeImmutable { return $this->updatedAt; }
 
-    // Setter para actualizar
     public function update(CustomerName $name, CustomerEmail $email): void
     {
         $this->name = $name;
