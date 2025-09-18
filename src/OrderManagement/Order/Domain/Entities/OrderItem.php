@@ -3,7 +3,7 @@
 namespace Src\OrderManagement\Order\Domain\Entities;
 
 use Src\OrderManagement\Order\Domain\ValueObjects\OrderItemQuantity;
-use Src\ProductManagement\Product\Domain\Entities\Product;
+use Src\ProductManagement\Product\Domain\Entities\Product;//se deberia llamar por infrastructure
 
 class OrderItem
 {
