@@ -14,11 +14,11 @@ Este caso está diseñado para evaluar habilidades avanzadas en Laravel, incluye
 4. OK **HU-04** : Como usuario autenticado, quiero poder listar todos los clientes registrados en el sistema, con opciones de paginación, filtrado por nombre y ordenamiento por fecha de creación.
 5. OK**HU-05** : Como usuario autenticado, quiero poder actualizar la información de un cliente existente para mantener los datos actualizados.
 6. OK **HU-06** : Como usuario autenticado, quiero poder eliminar un cliente del sistema si ya no es necesario. [[si tiene ordenes con estados no finalizados, no se podra eliminar]]
-7. **HU-07** : Como usuario autenticado, quiero poder crear nuevos productos para asociarlos a las órdenes de los clientes.
-8. **HU-08** : Como usuario autenticado, quiero poder listar todos los productos disponibles en el sistema, con opciones de filtrado por categoría y ordenamiento por precio.
-9. **HU-09** : Como usuario autenticado, quiero poder crear órdenes asociando productos específicos a un cliente determinado.
-10. **HU-10** : Como usuario autenticado, quiero poder ver el historial de órdenes de un cliente específico, mostrando los detalles de cada orden (productos asociados, cantidades y precios).
-11. **HU-11** : Como usuario autenticado, quiero poder calcular el total gastado por un cliente en todas sus órdenes, considerando el precio unitario de los productos y las cantidades asociadas.
+7. OK**HU-07** : Como usuario autenticado, quiero poder crear nuevos productos para asociarlos a las órdenes de los clientes.
+8. OK**HU-08** : Como usuario autenticado, quiero poder listar todos los productos disponibles en el sistema, con opciones de filtrado por categoría y ordenamiento por precio.
+9. OK**HU-09** : Como usuario autenticado, quiero poder crear órdenes asociando productos específicos a un cliente determinado.
+10. OK**HU-10** : Como usuario autenticado, quiero poder ver el historial de órdenes de un cliente específico, mostrando los detalles de cada orden (productos asociados, cantidades y precios).
+11. OK**HU-11** : Como usuario autenticado, quiero poder calcular el total gastado por un cliente en todas sus órdenes, considerando el precio unitario de los productos y las cantidades asociadas.
 12. **HU-12** : Como usuario autenticado, quiero que cada producto tenga un código QR asociado que al escanearlo me muestre los datos del producto.
 [[qr no llega dominio]]
 ## Especificaciones
