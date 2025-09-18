@@ -58,9 +58,13 @@ class EloquentCustomerRepository implements CustomerContract
         );
     }
 
-    public function update(DomainCustomer $customer): DomainCustomer
+    public function update(DomainCustomer $customer): ?DomainCustomer
     {
-        $eloquent = EloquentCustomer::findOrFail($customer->id());
+        $eloquent = EloquentCustomer::find($customer->id());
+
+        if (!$eloquent) {
+            return null;
+        }
 
         $eloquent->update([
             'name' => $customer->name()->value(),
@@ -74,6 +78,9 @@ class EloquentCustomerRepository implements CustomerContract
             $eloquent->id
         );
     }
+
+
+
 
     public function delete(int $id): void
     {

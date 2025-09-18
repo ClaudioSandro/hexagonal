@@ -23,10 +23,22 @@ class ProductController extends Controller
 
     public function create(CreateProductRequest $request)
     {
-        $useCase = new CreateProductUseCase($this->repository);
-        $product = $useCase($request->validated());
+        try {
+            $useCase = new CreateProductUseCase($this->repository);
+            $product = $useCase($request->validated());
 
-        return response()->json(['message' => 'Producto creado correctamente', 'data' => $product], 201);
+            return response()->json([
+                'message' => 'Producto creado correctamente',
+                'data' => $product,
+                'success' => true
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al crear el producto',
+                'error' => $e->getMessage(),
+                'success' => false
+            ], 500);
+        }
     }
 
     public function list(Request $request)
@@ -36,7 +48,15 @@ class ProductController extends Controller
         $filters = ['category' => $request->query('category')];
         $products = $useCase($filters, $request->query('per_page', 10), $request->query('order', 'asc'));
 
-        return response()->json($products);
+        $cleaned = collect($products['data'] ?? $products)->map(function ($product) {
+            unset($product['created_at'], $product['updated_at']);
+            return $product;
+        });
+
+         return response()->json([
+            'message' => 'Lista de productos obtenida correctamente',
+            'data' => $cleaned,
+        ]);
     }
 
     public function update(UpdateProductRequest $request, int $id)

@@ -12,7 +12,7 @@ interface CustomerContract
 
     public function findById(int $id): ?Customer;
 
-    public function update(Customer $customer): Customer;
+    public function update(Customer $customer): ?Customer;
 
     public function delete(int $id): void;
 }

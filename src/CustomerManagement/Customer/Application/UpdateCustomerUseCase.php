@@ -20,7 +20,10 @@ class UpdateCustomerUseCase
         $customer = $this->repository->findById($id);
 
         if (!$customer) {
-            throw new \Exception("Cliente con ID {$id} no encontrado.");
+            return response()->json([
+                'message' => "Cliente con ID {$id} no encontrado.",
+                'success' => false
+            ], 404);
         }
 
         $customer->update(
@@ -28,6 +31,17 @@ class UpdateCustomerUseCase
             new CustomerEmail($data['email'])
         );
 
-        return $this->repository->update($customer);
+        $updatedCustomer = $this->repository->update($customer);
+        
+        if (!$updatedCustomer) {
+            return response()->json([
+                'message' => "No se pudo actualizar el cliente con ID {$id}.",
+                'success' => false
+            ], 404);
+        }
+
+        return $updatedCustomer;
     }
+
+
 }

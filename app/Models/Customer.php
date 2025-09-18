@@ -12,10 +12,9 @@ class Customer extends Model
     protected $fillable = [
         'name',
         'email',
-        'user_id', // relación con el usuario creador
+        'user_id', 
     ];
 
-    // Relación con User (IAM)
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -36,8 +36,18 @@ class CustomerController extends Controller
             $request->query('order', 'asc')
         );
 
-        return response()->json($customers);
+        $cleaned = collect($customers['data'] ?? $customers)->map(function ($customer) {
+            unset($customer['created_at'], $customer['updated_at']);
+            return $customer;
+        });
+
+        return response()->json([
+            'message' => 'Lista de clientes obtenida correctamente',
+            'data' => $cleaned,
+        ]);
     }
+       
+
 
 
     public function store(CreateCustomerRequest $request)
@@ -59,23 +69,33 @@ class CustomerController extends Controller
     public function update(UpdateCustomerRequest $request, int $id)
     {
         $useCase = new UpdateCustomerUseCase($this->repository);
-
-        $customer = $useCase($id, $request->validated());
+        
+        $result = $useCase($id, $request->validated());
+        
+        if ($result instanceof \Illuminate\Http\JsonResponse) {
+            return $result;
+        }
 
         return response()->json([
             'message' => 'Cliente actualizado correctamente',
-            'data' => $customer
+            'data' => $result,
+            'success' => true
         ]);
     }
+
+
+
 
     public function destroy(int $id)
     {
         $useCase = new DeleteCustomerUseCase($this->repository);
 
-        $useCase($id);
+        $result = $useCase($id);
+        
+        if ($result instanceof \Illuminate\Http\JsonResponse) {
+            return $result;
+        }
 
-        return response()->json([
-            'message' => 'Cliente eliminado correctamente'
-        ]);
+        return $result;
     }
 }

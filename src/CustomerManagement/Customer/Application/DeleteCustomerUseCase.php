@@ -13,8 +13,22 @@ class DeleteCustomerUseCase
         $this->repository = $repository;
     }
 
-    public function __invoke(int $id): void
+    public function __invoke(int $id)
     {
+        $customer = $this->repository->findById($id);
+        
+        if (!$customer) {
+            return response()->json([
+                'message' => "Cliente con ID {$id} no encontrado.",
+                'success' => false
+            ], 404);
+        }
+
         $this->repository->delete($id);
+        
+        return response()->json([
+            'message' => 'Cliente eliminado correctamente',
+            'success' => true
+        ]);
     }
 }

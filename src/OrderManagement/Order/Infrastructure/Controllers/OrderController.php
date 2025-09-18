@@ -32,7 +32,32 @@ class OrderController extends Controller
         $useCase = new ListOrdersByCustomer($this->repository);
         $orders = $useCase($customerId);
 
-        return response()->json($orders);
+        $cleaned = collect($orders['data'] ?? $orders)->map(function ($order) {
+            $data = is_array($order) ? $order : $order->toArray();
+            unset($data['created_at'], $data['updated_at']);
+            
+            if (isset($data['items'])) {
+                $data['items'] = collect($data['items'])->map(function ($item) {
+                    unset($item['created_at'], $item['updated_at']);
+                    
+                    if (isset($item['product'])) {
+                        $product = $item['product'];
+                        unset($product['created_at'], $product['updated_at']);
+                        $item['product'] = $product;
+                    }
+                    
+                    return $item;
+                })->toArray();
+            }
+            
+            return $data;
+        });
+
+        return response()->json([
+            'message' => 'Lista de órdenes obtenida correctamente',
+            'data' => $cleaned,
+            'success' => true
+        ]);
     }
 
     public function calculateTotal(int $customerId)
