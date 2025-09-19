@@ -10,6 +10,7 @@ use Src\CustomerManagement\Customer\Application\UpdateCustomerUseCase;
 use Src\CustomerManagement\Customer\Application\DeleteCustomerUseCase;
 use Src\CustomerManagement\Customer\Infrastructure\Validators\CreateCustomerRequest;
 use Src\CustomerManagement\Customer\Infrastructure\Validators\UpdateCustomerRequest;
+use Src\CustomerManagement\Customer\Infrastructure\Validators\DeleteCustomerRequest;
 use Src\CustomerManagement\Customer\Infrastructure\Repositories\EloquentCustomerRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -86,16 +87,32 @@ class CustomerController extends Controller
 
 
 
-    public function destroy(int $id)
+
+    public function destroy(DeleteCustomerRequest $_request, int $id)
     {
-        $useCase = new DeleteCustomerUseCase($this->repository);
+        try {
+            $customer = \App\Models\Customer::findOrFail($id);
+            
+            if (!$customer->canBeDeleted()) {
+                return response()->json([
+                    'message' => 'No se puede eliminar el cliente porque tiene órdenes pendientes o en proceso.',
+                    'success' => false
+                ], 422);
+            }
 
-        $result = $useCase($id);
-        
-        if ($result instanceof \Illuminate\Http\JsonResponse) {
-            return $result;
+            $useCase = new DeleteCustomerUseCase($this->repository);
+            $useCase($id);
+
+            return response()->json([
+                'message' => 'Cliente eliminado correctamente',
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al eliminar el cliente',
+                'error' => $e->getMessage(),
+                'success' => false
+            ], 500);
         }
-
-        return $result;
     }
 }

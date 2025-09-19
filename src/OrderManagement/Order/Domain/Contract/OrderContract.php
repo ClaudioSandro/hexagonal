@@ -11,4 +11,6 @@ interface OrderContract
     public function listByCustomer(int $customerId): array;
 
     public function calculateTotalSpentByCustomer(int $customerId): float;
+
+    public function findByCustomerId(int $customerId): array;
 }

@@ -15,8 +15,20 @@ class Customer extends Model
         'user_id', 
     ];
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function canBeDeleted(): bool
+    {
+        return !$this->orders()
+            ->whereNotIn('status', ['completed', 'declined'])
+            ->exists();
     }
 }

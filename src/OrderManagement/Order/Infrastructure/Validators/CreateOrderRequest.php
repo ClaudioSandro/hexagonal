@@ -17,6 +17,7 @@ class CreateOrderRequest extends FormRequest
     {
         return [
             'customer_id' => 'required|integer|exists:customers,id',
+            'status' => 'sometimes|string|in:pending,processing,completed,declined',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|integer|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',

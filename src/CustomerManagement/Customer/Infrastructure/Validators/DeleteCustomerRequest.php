@@ -3,11 +3,13 @@
 namespace Src\CustomerManagement\Customer\Infrastructure\Validators;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Order;
 use App\Models\Customer;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateCustomerRequest extends FormRequest
+class DeleteCustomerRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,10 +18,7 @@ class UpdateCustomerRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'name' => 'sometimes|string|min:3|max:100',
-            'email' => 'sometimes|email|unique:customers,email,' . $this->route('customer'),
-        ];
+        return [];
     }
 
     public function withValidator(Validator $validator): void
@@ -32,15 +31,29 @@ class UpdateCustomerRequest extends FormRequest
                 $validator->errors()->add('id', 'No se pudo obtener el ID del cliente.');
                 return;
             }
-
+            
             try {
                 $exists = Customer::where('id', $customerId)->exists();
                 Log::info('¿Cliente existe?: ' . ($exists ? 'Sí' : 'No'));
-
+                
                 if (!$exists) {
                     $validator->errors()->add(
-                        'customer',
+                        'customer', 
                         "Cliente con ID {$customerId} no encontrado."
+                    );
+                    return;
+                }
+
+                $activeOrders = Order::where('customer_id', $customerId)
+                    ->whereNotIn('status', ['completed', 'declined'])
+                    ->count();
+                
+                Log::info('Número de órdenes activas: ' . $activeOrders);
+
+                if ($activeOrders > 0) {
+                    $validator->errors()->add(
+                        'customer', 
+                        'No se puede eliminar el cliente porque tiene órdenes pendientes o en proceso.'
                     );
                 }
             } catch (\Exception $e) {

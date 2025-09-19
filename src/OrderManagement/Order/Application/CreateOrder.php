@@ -10,6 +10,7 @@ use Src\ProductManagement\Product\Domain\Entities\Product;
 use Src\ProductManagement\Product\Domain\ValueObjects\ProductName;
 use Src\ProductManagement\Product\Domain\ValueObjects\ProductPrice;
 use Src\ProductManagement\Product\Domain\ValueObjects\ProductCategory;
+use Src\OrderManagement\Order\Domain\ValueObjects\OrderStatus;
 use App\Models\Product as EloquentProduct;
 
 class CreateOrder
@@ -22,7 +23,7 @@ class CreateOrder
     }
 
 
-    public function __invoke(int $customerId, array $items): Order
+    public function __invoke(int $customerId, array $items, string $status = 'pending'): Order
     {
         $orderItems = [];
         $total = 0;
@@ -43,7 +44,13 @@ class CreateOrder
             $total += $eloquentProduct->price * $item['quantity'];
         }
 
-        $order = new Order(null, $customerId, $orderItems, $total);
+        $order = new Order(
+            null, 
+            $customerId, 
+            $orderItems, 
+            $total,
+            new OrderStatus($status)
+        );
 
         return $this->repository->create($order);
     }

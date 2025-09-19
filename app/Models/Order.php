@@ -9,7 +9,19 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'total'];
+    protected $fillable = ['customer_id', 'total', 'status'];
+
+    protected $casts = [
+        'total' => 'decimal:2',
+        'status' => 'string'
+    ];
+
+    public const STATUSES = [
+        'PENDING' => 'pending',
+        'PROCESSING' => 'processing',
+        'COMPLETED' => 'completed',
+        'DECLINED' => 'declined'
+    ];
 
     public function items()
     {

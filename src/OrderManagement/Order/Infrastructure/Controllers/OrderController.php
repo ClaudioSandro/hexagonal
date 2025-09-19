@@ -22,7 +22,11 @@ class OrderController extends Controller
     public function create(CreateOrderRequest $request)
     {
         $useCase = new CreateOrder($this->repository);
-        $order = $useCase($request->get('customer_id'), $request->get('items'));
+        $order = $useCase(
+            $request->get('customer_id'), 
+            $request->get('items'),
+            $request->get('status', 'pending')  // Si no se proporciona, usa 'pending' como default
+        );
 
         return response()->json(['message' => 'Orden creada correctamente', 'data' => $order], 201);
     }
